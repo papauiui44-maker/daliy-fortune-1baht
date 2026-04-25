@@ -1,0 +1,1 @@
+# daliy-fortune-1baht
