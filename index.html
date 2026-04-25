@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ดูดวง 1 บาท - ดวงวันนี้</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Kanit', sans-serif; background-color: #f9f9f9; }
+        .card { transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="flex flex-col items-center min-h-screen p-4">
+
+    <header class="text-center my-10">
+        <h1 class="text-3xl font-bold text-gray-800">🔮 ดูดวงวันนี้</h1>
+        <p class="text-gray-500 mt-2">เช็กดวงชะตาของคุณในราคาเพียง 1 บาท</p>
+    </header>
+
+    <div id="main-selection" class="w-full max-w-md bg-white rounded-3xl shadow-sm p-6 border border-gray-100">
+        <label class="block text-gray-700 mb-4 font-medium">คุณเกิดวันอะไร?</label>
+        <div class="grid grid-cols-2 gap-3">
+            <button onclick="selectDay('อาทิตย์')" class="p-3 border rounded-xl hover:bg-red-50 hover:border-red-200">วันอาทิตย์</button>
+            <button onclick="selectDay('จันทร์')" class="p-3 border rounded-xl hover:bg-yellow-50 hover:border-yellow-200">วันจันทร์</button>
+            <button onclick="selectDay('อังคาร')" class="p-3 border rounded-xl hover:bg-pink-50 hover:border-pink-200">วันอังคาร</button>
+            <button onclick="selectDay('พุธ')" class="p-3 border rounded-xl hover:bg-green-50 hover:border-green-200">วันพุธ</button>
+            <button onclick="selectDay('พฤหัสบดี')" class="p-3 border rounded-xl hover:bg-orange-50 hover:border-orange-200">วันพฤหัสบดี</button>
+            <button onclick="selectDay('ศุกร์')" class="p-3 border rounded-xl hover:bg-blue-50 hover:border-blue-200">วันศุกร์</button>
+            <button onclick="selectDay('เสาร์')" class="p-3 border rounded-xl hover:bg-purple-50 hover:border-purple-200">วันเสาร์</button>
+        </div>
+    </div>
+
+    <div id="payment-section" class="hidden w-full max-w-md mt-6 text-center animate-fade-in">
+        <div class="bg-gray-800 text-white rounded-3xl p-8 shadow-xl">
+            <p class="mb-4 text-sm opacity-80">คุณเลือกคนเกิดวัน: <span id="selected-day-label" class="font-bold text-yellow-400"></span></p>
+            <h2 class="text-xl mb-6">สแกนจ่าย 1 บาทเพื่อดูดวง</h2>
+            <div class="bg-white p-4 inline-block rounded-xl mb-4">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PROMPTPAY_DATA" alt="QR Code" class="w-32 h-32">
+            </div>
+            <p class="text-xs opacity-60 mb-6">โอนเข้าบัญชี: นายแอดมินใจดี (พร้อมเพย์)</p>
+            <button onclick="showResult()" class="w-full bg-yellow-400 text-gray-900 py-3 rounded-full font-bold hover:bg-yellow-300">
+                จ่ายเงินเรียบร้อยแล้ว
+            </button>
+        </div>
+    </div>
+
+    <div id="result-section" class="hidden w-full max-w-md mt-6 animate-bounce-in">
+        <div class="bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-3xl p-8 shadow-2xl">
+            <h2 class="text-2xl font-bold mb-4 italic text-center">✨ คำทำนายของคุณ ✨</h2>
+            <p id="fortune-text" class="text-lg leading-relaxed text-center mb-6"></p>
+            <div class="border-t border-white/20 pt-4 text-center">
+                <p class="text-sm italic">ขอให้เป็นวันที่ดีสำหรับคุณ!</p>
+            </div>
+            <button onclick="location.reload()" class="mt-6 w-full py-2 text-sm opacity-70 underline">กลับหน้าแรก</button>
+        </div>
+    </div>
+
+    <script>
+        function selectDay(day) {
+            document.getElementById('main-selection').classList.add('hidden');
+            document.getElementById('payment-section').classList.remove('hidden');
+            document.getElementById('selected-day-label').innerText = day;
+        }
+
+        function showResult() {
+            // ในขั้นตอนที่ 3 เราจะเขียนโค้ดตรวจสอบยอดเงินจริงๆ ตรงนี้
+            // ตอนนี้เราจำลองว่ากดแล้วเห็นผลเลย
+            document.getElementById('payment-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+            document.getElementById('fortune-text').innerText = "วันนี้คุณมีเกณฑ์จะได้รับข่าวดีเรื่องการงานหรือมีโชคลาภลอยเข้ามาเล็กๆ ให้รีบทำบุญเสริมดวงนะครับ!";
+        }
+    </script>
+</body>
+</html>
