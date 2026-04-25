@@ -39,7 +39,7 @@
                 <img src="https://cdn.phototourl.com/free/2026-04-25-2974d38d-531c-4ed1-add4-05ed30dd9109.jpg">
             </div>
             <p class="text-xs opacity-60 mb-6">โอนเข้าบัญชี: นางสาว กัณฐิกา สุ่มเมา (พร้อมเพย์)</p>
-            <button onclick="showResult()" <div class="mt-4 mb-6">
+            <onclick="verifySlip()"" <div class="mt-4 mb-6">
     <label class="block text-sm text-gray-400 mb-2">เมื่อโอนแล้ว แนบสลิปเพื่อปลดล็อกคำทำนาย</label>
     <input type="file" id="slipInput" accept="image/*" class="block w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-yellow-400 file:text-black">
 </div>
@@ -69,11 +69,12 @@
         document.getElementById('selected-day-label').innerText = day;
     }
 
+    // ฟังก์ชันนี้จะทำงานเมื่อกดปุ่ม "ตรวจสอบสลิป"
     async function verifySlip() {
-        const fileInput = document.getElementById('slipInput');
+        const fileInput = document.getElementById('slipInput'); // ตรวจสอบว่า id ตรงกับช่อง input file ของคุณ
         const btn = document.getElementById('verifyBtn');
         
-        if (fileInput.files.length === 0) {
+        if (!fileInput || fileInput.files.length === 0) {
             alert("กรุณาแนบรูปสลิปก่อนครับ");
             return;
         }
@@ -86,7 +87,6 @@
         formData.append('log', 'false');
 
         try {
-            // ใช้ API Key ของคุณที่ให้มา
             const response = await fetch('https://api.slipok.com/api/line/apikey/fe9da6c4-307f-4c20-93c2-aa9b6e5d2726', {
                 method: 'POST',
                 headers: {
@@ -97,28 +97,26 @@
 
             const data = await response.json();
 
-            // ตรวจสอบว่าสำเร็จและยอดเงินเท่ากับ 1 บาท
+            // เช็กว่าสำเร็จ และยอดเงินคือ 1 บาท
             if (data.success && parseFloat(data.data.amount) === 1.00) {
-                alert("ตรวจสอบสำเร็จ! ยอดเงิน 1 บาทถูกต้อง");
-                showResult();
+                alert("โอนเงินถูกต้อง! ยอด 1 บาท");
+                showResult(); // เมื่อเงินเข้าจริงค่อยเรียกฟังก์ชันแสดงผล
             } else {
-                alert("ไม่สำเร็จ: " + (data.message || "ยอดเงินไม่ถูกต้อง หรือสลิปซ้ำ"));
+                alert("ไม่สำเร็จ: ยอดเงินไม่ถูกต้อง หรือสลิปนี้เคยใช้ไปแล้ว");
                 btn.innerText = "ตรวจสอบสลิปอีกครั้ง";
                 btn.disabled = false;
             }
         } catch (error) {
-            console.error(error);
-            alert("เกิดข้อผิดพลาดในการเชื่อมต่อระบบตรวจสอบ");
+            alert("ระบบตรวจสอบขัดข้อง กรุณาลองใหม่ครู่");
             btn.innerText = "ตรวจสอบสลิปอีกครั้ง";
             btn.disabled = false;
         }
     }
 
+    // ฟังก์ชันนี้จะถูกเรียกใช้ "หลังจาก" เช็กสลิปผ่านแล้วเท่านั้น
     function showResult() {
         document.getElementById('payment-section').classList.add('hidden');
         document.getElementById('result-section').classList.remove('hidden');
-        // คุณสามารถเปลี่ยนคำทำนายตรงนี้ได้ตามต้องการ
-        document.getElementById('fortune-text').innerText = "วันนี้คุณมีเกณฑ์จะได้รับข่าวดีเรื่องการงานหรือมีโชคลาภลอยเข้ามาเล็กๆ ให้รีบทำบุญเสริมดวงนะครับ!";
     }
 </script>
     <script>
